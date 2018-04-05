@@ -1,0 +1,54 @@
+import java.awt.image.BufferedImage;
+import java.awt.Graphics;
+import java.awt.Color;
+import javax.swing.*;
+import java.util.*;
+
+abstract class Gegner extends NPC{
+
+    protected double startX, startY, schaden;
+
+    public Gegner(Animation animationL,Animation animationR,Animation animationO,Animation animationU, BufferedImage maske, double x, double y, int breite, int hoehe){
+        super(animationL,animationR,animationO,animationU,maske,x,y,breite,hoehe);
+        startX=x;
+        startY=y;
+        schaden=10;
+    }
+
+    protected void aufStartZuruecksetzen(){
+        x = startX;
+        y = startY;
+    }
+
+    protected boolean spielerInRadius(int r){
+        return punktInRadius(spieler.getX(),spieler.getY(),r);
+    }
+
+    protected boolean punktInRadius(double xp, double yp, int r){
+        int abstand = (int)Math.sqrt((Math.pow(xp-x, 2.0)+Math.pow(yp-y, 2.0)));
+        if(abstand<r){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static void setSpieler(Spieler sp){
+        spieler = sp;
+    }
+    
+    public void kollidiertMitSpieler(){
+        if(spieler.getKollisionsmaske().kollidiert(kollisionsmaske)){
+            spieler.kriegtSchaden(schaden,x,y,10);
+            horizontaleGeschwindigkeit=0;
+            vertikaleGeschwindigkeit=0;
+        }
+    }
+
+    public void positionBerechnen(ArrayList<Hindernis> hindernisse){
+        ki(hindernisse);
+        super.positionBerechnen(hindernisse);
+    }
+    
+    abstract void ki(ArrayList<Hindernis> hindernisse);
+}

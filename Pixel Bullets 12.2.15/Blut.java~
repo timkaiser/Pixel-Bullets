@@ -1,0 +1,30 @@
+import javax.swing.*;
+import java.awt.*;
+import java.util.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.IOException;
+import java.awt.RenderingHints;
+
+public class Blut{
+    private static BufferedImage bild;
+    private final GraphicsConfiguration gfxConf = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+
+    public Blut(int breite, int hoehe){
+        bild = gfxConf.createCompatibleImage(breite,hoehe);
+    }
+
+    public static void addBlut(int x, int y, int schaden){
+        Graphics g = bild.createGraphics();
+        g.setColor(new Color(100,0,0,20));
+        g.fillRect(x,y,1,1);
+    }
+
+    public boolean kollision(Rectangle r, Projektil p ){
+        return false;
+    }
+
+    public static void zeichnen(Graphics g, JPanel panel){     
+        g.drawImage(bild,0,0,bild.getWidth(),bild.getHeight(), panel);
+    }
+}

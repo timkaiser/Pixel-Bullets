@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=farbe\ x\ y\ breite\ hoehe
+comment0.target=NiedrigesHindernis(java.awt.Color,\ double,\ double,\ int,\ int)
+comment1.params=r\ p
+comment1.target=boolean\ kollision(java.awt.Rectangle,\ Projektil)
+comment2.params=
+comment2.target=boolean\ istNiedrig()
+numComments=3

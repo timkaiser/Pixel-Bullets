@@ -1,0 +1,357 @@
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+import java.awt.Rectangle;
+import java.util.*;
+import javax.swing.*;
+import Wegfindung.*;
+
+public class NPC extends Objekt{
+    public int NPCzahl;
+    Animation animationLinks, animationRechts, animationOben, animationUnten, animation;
+    //Status
+    protected double horizontaleGeschwindigkeit, vertikaleGeschwindigkeit;
+    protected int momentanLeben;
+    protected boolean amLeben;
+    protected String richtung;
+    //Eigenschaften
+    protected int maximalLeben;    
+    protected double geschwindigkeit = 0.30;
+    protected int berechnungsZeit;
+    protected Pfad pfad;
+    protected int damage;
+    public NPC(){
+        super(10,10,4,2);
+        amLeben = true;
+        NPCzahl++;
+        maximalLeben = 100;
+
+        momentanLeben = 100;
+
+        damage = 10;
+
+        ArrayList<Gegnerspawnpunkt> gegnerspawnpunkte = Objektmanager.getGegnerspawnpunkte();
+        int position = (int)(Math.random() * gegnerspawnpunkte.size()+1)-1;
+        gegnerspawnpunkte.get(position).NPCToSpawn(this);
+
+        BufferedImage bild = null;
+        try {       bild = (ImageIO.read(getClass().getResource("Spieler"+"1"+".png")));
+        } catch (IOException e) {}
+
+        animationUnten = new Animation(bild.getSubimage(0,0,16,5),4,250);
+        animationRechts = new Animation(bild.getSubimage(0,5,16,5),4,250);
+        animationLinks = new Animation(bild.getSubimage(0,15,16,5),4,250);
+        animationOben = new Animation(bild.getSubimage(0,10,16,5),4,250);
+
+        animation = animationUnten;
+        richtung = "RUNTER";
+
+    }
+
+    public boolean amLeben(){
+        return amLeben;
+    }
+
+    public void berechnen(){
+        bewegungBerechnen();
+    }
+
+    public void bewegenHoch(){
+        vertikaleGeschwindigkeit = -geschwindigkeit;
+        richtung = "HOCH";
+        animation = animationOben;
+    }
+
+    public void bewegenRunter(){
+        vertikaleGeschwindigkeit = geschwindigkeit;
+        richtung = "RUNTER";
+        animation = animationUnten;
+    }
+
+    public void bewegenLinks(){
+        horizontaleGeschwindigkeit = -geschwindigkeit;
+        richtung = "LINKS";
+        animation = animationLinks;
+    }
+
+    public void bewegenRechts(){
+        horizontaleGeschwindigkeit = geschwindigkeit;
+        richtung = "RECHTS";
+        animation = animationRechts;
+    }
+
+    private boolean kollidiert(double plusX,double plusY){        
+        ArrayList<Hindernis> hindernisse = Objektmanager.getHindernisse();
+        boolean kollidiert = false;
+        Rectangle r = rect;
+        r.setBounds((int)(x+plusX),(int)(y+plusY),(int)breite,(int)hoehe);
+        for(int i=0; i<hindernisse.size(); i++){
+            if(hindernisse.get(i).kollision(rect,this)){
+                kollidiert = true;
+                break;
+            }            
+        }
+        return kollidiert;
+    }
+
+    protected void bewegungBerechnen(){
+        KI();
+        //kollision mit freund
+        for(int i = 0; i< Objektmanager.getNPC().size();i++){
+            NPC freund = Objektmanager.getNPC(i);
+            if(freund != this){
+                Rectangle r = new Rectangle((int)freund.getX(),(int)freund.getY(),(int)freund.getBreite(),(int)freund.getHoehe());
+                if(kollision(r)){
+                    double vektorX = freund.getX()-x;
+                    double vektorY = freund.getY()-y;
+                    double vektorLaenge = Math.sqrt(Math.pow(vektorX,2)+Math.pow(vektorY,2));
+                    double normalX = vektorX/vektorLaenge;
+                    double normalY = vektorY/vektorLaenge;
+                    double staerke = 0.5;
+                    normalX*=staerke;
+                    normalY*=staerke;
+                    if(!freund.kollidiert(normalX,normalY)){
+                        freund.setX(freund.getX()+normalX);
+                        freund.setY(freund.getY()+normalY);
+                    }
+                    normalX = -normalX;
+                    normalY = -normalY;
+                    if(!kollidiert(normalX,normalY)){
+                        x+=normalX;
+                        y+=normalY;
+                    }
+
+                    rect.setBounds((int)x,(int)y,(int)breite,(int)hoehe);
+                }
+            }
+        }
+
+        //kollision mit spieler
+        for(int i = 0; i< Objektmanager.getSpieler().size();i++){
+            Spieler feind = Objektmanager.getSpieler(i);
+            Rectangle r = new Rectangle((int)feind.getX(),(int)feind.getY(),(int)feind.getBreite(),(int)feind.getHoehe());
+            if(kollision(r) && feind.amLeben()){    
+                double vektorX = feind.getX()-x;
+                double vektorY = feind.getY()-y;
+                double vektorLaenge = Math.sqrt(Math.pow(vektorX,2)+Math.pow(vektorY,2));
+                double normalX = vektorX/vektorLaenge;
+                double normalY = vektorY/vektorLaenge;
+                double staerke = 0.5;
+                normalX*=staerke;
+                normalY*=staerke;
+                if(!feind.kollidiert(normalX,normalY)){
+                    feind.setX(feind.getX()+normalX);
+                    feind.setY(feind.getY()+normalY);
+                }
+                feind.kriegtSchaden(damage);
+                normalX = -normalX;
+                normalY = -normalY;
+                if(!kollidiert(normalX,normalY)){
+                    x+=normalX;
+                    y+=normalY;
+                }
+            }
+        }
+
+        if(horizontaleGeschwindigkeit!=0 || vertikaleGeschwindigkeit!=0){
+            animation.starteAnimation();
+        }else{
+            animation.stoppeAnimation();
+        }
+
+        if(!kollidiert(horizontaleGeschwindigkeit,0)){
+            x += horizontaleGeschwindigkeit;
+        }else{
+            for(int i=0;i<Math.abs(horizontaleGeschwindigkeit);i++){
+                if(!kollidiert(Math.signum(horizontaleGeschwindigkeit),0)){
+                    x += Math.signum(horizontaleGeschwindigkeit);
+                    break;
+                }
+            }
+        }
+        horizontaleGeschwindigkeit = 0;        
+
+        if(!kollidiert(0,vertikaleGeschwindigkeit)){
+            y += vertikaleGeschwindigkeit;
+        }else{
+            for(int i=0;i<Math.abs(vertikaleGeschwindigkeit);i++){
+                if(!kollidiert(0,Math.signum(vertikaleGeschwindigkeit))){
+                    y += Math.signum(vertikaleGeschwindigkeit);
+                    break;
+                }
+            }
+        }
+        vertikaleGeschwindigkeit = 0;
+
+        rect.setBounds((int)x,(int)y,breite,hoehe);
+    }
+
+    protected void sterben(){
+        amLeben = false;
+        ArrayList<NPC> npc = Objektmanager.getNPC();
+        npc.remove(this);
+    }
+
+    public void setX(double x){
+        this.x=x;
+    }
+
+    public void setY(double y){
+        this.y=y;
+    }
+
+    public int getMaximalLeben(){
+        return maximalLeben;
+    }
+
+    public void setMaximalLeben(int leben){
+        maximalLeben = leben;
+    }
+
+    public int getMomentanLeben(){
+        return momentanLeben;
+    }
+
+    public void setMomentanLeben(int leben){
+        momentanLeben = leben;
+    }
+
+    public void kriegtSchaden(double schaden){
+        momentanLeben -= schaden;
+        Hintergrund.addBlut((int)x,(int)y,(int)schaden);
+        if(momentanLeben<=0){
+            momentanLeben=0;
+            sterben();
+        }
+    }
+
+    public String getRichtung(){
+        return richtung;
+    }
+
+    public void zeichnen(Graphics g, JPanel panel){  
+        if(pfad!=null){
+            ArrayList<Punkt> k = pfad.getWegpunkte();
+
+            /*g.setColor(Color.RED);
+            for(int i=0; i<k.size();i++){
+                g.fillRect(k.get(i).getX()*Objekt.genauigkeit,k.get(i).getY()*Objekt.genauigkeit,Objekt.genauigkeit,Objekt.genauigkeit);
+            }
+            
+            int index = -1;
+            for(int i = 0; i < Objektmanager.getNPC().size();i++){
+            if(Objektmanager.getNPC().get(i) == this){
+            index = i;
+            }
+            }
+            g.drawString(""+index,(int)(x*genauigkeit),(int)((y-3)*genauigkeit));
+             */
+            if(amLeben){
+                BufferedImage bild;
+                bild = animation.getNextPicture();
+                g.drawImage(bild,(int)(x*genauigkeit),(int)((y-3)*genauigkeit),bild.getWidth()*genauigkeit,bild.getHeight()*genauigkeit,panel);
+            }
+        }
+    }
+
+    public void KI(){
+        berechnungsZeit-=25;
+        ArrayList<Spieler> spieler = Objektmanager.getSpieler();
+        double counter = 10000;
+        Spieler ziel = null;
+        for(int i = 0; i < spieler.size();i++){
+            int xDIFF = (int)(spieler.get(i).getX()-getX());
+            int yDIFF = (int)(spieler.get(i).getY()-getY());
+            double totalDIFF = Math.sqrt(Math.pow(xDIFF,2)+Math.pow(yDIFF,2));
+            if(totalDIFF < counter){
+                counter = totalDIFF;
+            }
+        }
+        int xDIFF = 0; 
+        int yDIFF = 0;
+        for(int i = 0; i < spieler.size();i++){
+            xDIFF = (int)(spieler.get(i).getX()-getX());
+            yDIFF = (int)(spieler.get(i).getY()-getY());
+            double totalDIFF = Math.sqrt(Math.pow(xDIFF,2)+Math.pow(yDIFF,2));
+            if(totalDIFF == counter){
+                ziel = spieler.get(i);
+                break;
+            }
+        }
+
+        if(berechnungsZeit <= 0){
+            pfad = new Pfad();
+            Knoten k2 = Knoten.getNaechstenKnoten((int)ziel.getX(),(int)ziel.getY());
+            Knoten k1 = Knoten.getNaechstenKnoten((int)x,(int)y);
+            pfad.wegBerechnen(k1,k2);
+            berechnungsZeit=2000;
+        }
+        boolean sichtKontakt = true;
+
+        {
+            double vektorX = ziel.getX()-x;
+            double vektorY = ziel.getY()-y;
+            double vektorlaenge = Math.sqrt(Math.pow(vektorX,2)+Math.pow(vektorY,2));
+            double normalX = vektorX/vektorlaenge;
+            double normalY = vektorY/vektorlaenge;
+            double neuesX = x;
+            double neuesY = y;
+            if(vektorlaenge <20){
+                for(int i = 0; i < vektorlaenge;i++){
+                    Rectangle rect = new Rectangle((int)neuesX,(int)neuesY,1,1);
+                    for(int j = 0; j< Objektmanager.getHindernisse().size();j++){
+                        if(Objektmanager.getHindernisse().get(j).kollision(rect)){
+                            sichtKontakt = false;
+                            break;
+                        }
+                    }
+                    if(!sichtKontakt){
+                        break;
+                    }
+                    neuesX+=normalX;
+                    neuesY+=normalY;
+                }
+            }
+            else{
+                sichtKontakt = false;
+            }
+        }
+        if(!sichtKontakt){
+            if(pfad.getWegpunkte().size()>0){
+                if(pfad.getWegpunkte().get(0).getX() > x){
+                    bewegenRechts();
+                }
+                else  if(pfad.getWegpunkte().get(0).getX() < x){
+                    bewegenLinks();
+                }
+                if(pfad.getWegpunkte().get(0).getY() > y){
+                    bewegenRunter();
+                }
+                else  if(pfad.getWegpunkte().get(0).getY() < y){
+                    bewegenHoch();
+                }
+                if((pfad.getWegpunkte().get(0).getX() >= x-1 && pfad.getWegpunkte().get(0).getX() <= x+1) 
+                &&(pfad.getWegpunkte().get(0).getY() >= y-1 && pfad.getWegpunkte().get(0).getY()<= y+1)){
+                    pfad.getWegpunkte().remove(0);
+                }
+            }
+        }
+        else{
+            if(xDIFF > 0){
+                bewegenRechts();
+            }
+            else if(xDIFF < 0){
+                bewegenLinks();
+            }
+
+            if(yDIFF > 0){
+                bewegenRunter();
+            }
+            else if(yDIFF < 0){
+                bewegenHoch();
+            }
+        }
+    }
+}

@@ -1,0 +1,257 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.geom.Area;
+import java.awt.image.BufferedImage;
+import java.util.Iterator;
+
+/**
+ * The Physical is the superclass for all objects that appear within
+ * the level, including all Players, Explosions, and Spells.
+ * Physicals have a current direction of force that determines the
+ * direction and velocity it moves. Physicals also have a mass which
+ * affects this as well, and if a mass is zero no force affects them.
+ * @author eli
+ *
+ */
+public abstract class Physical implements java.io.Serializable
+{
+   private static final long serialVersionUID = 1L;
+   /** Variables used to determine collision and location, x+y are top left corner*/
+   protected float x, y, width, height;
+   /** The current force of this physical, it determines
+    *  how the physical is moving at the end of the timestep. */
+   protected Vector force;
+   /** The mass of this physical, changes overall speed */
+   protected float mass;
+   
+   public Physical()
+   {
+      x = y = width = height = mass = 0.0f;
+      force = new Vector(0,0);
+   }
+   
+   public Physical(float newX, float newY, float w, float h, Vector f, float m)
+   {
+      x = newX;
+      y = newY;
+      width = w;
+      height = h;
+      force = f;
+      mass = m;
+   }
+   
+   public Vector position()
+   {
+      return new Vector(x,y);
+   }
+   
+   public Vector force()
+   {
+      return force;
+   }
+   
+   public float mass()
+   {
+      return mass;
+   }
+   
+   public BufferedImage bounds()
+   {
+      BufferedImage b = new BufferedImage((int)width,(int)height,BufferedImage.TYPE_INT_ARGB);
+      Graphics2D g = b.createGraphics();
+      g.setColor(Color.BLACK);
+      g.fillRect(0,0,(int)width,(int)height);
+      g.dispose();
+      return b;
+   }
+   
+   /** Applies a force to this physical, useful for bounces,
+    * deflections, and the like. Offsets the force already existing.
+    * @param v   The Vector force to apply
+    */
+   public void applyForce(Vector v)
+   {
+      force.x += v.x;
+      force.y += v.y;
+   }
+   
+   /** Applies a force to this physical that is exactly its
+    * opposite, thereby making it negative. Useful for ground and
+    * anything else that may deflect a Physical entirely.
+    */
+   public void applyOppositeForce()
+   {
+      force.x *= -1;
+      force.y *= -1;
+   }
+   
+   /** Applies an opposite force to the current one while
+    * also multiplying it by a certain factor. This is
+    * called by the Ground when it deflects a Physical.
+    */
+   public void applyForceFactor(float factor)
+   {
+      force.x *= -factor;
+      force.y *= -factor;
+   }
+   
+   /** Manually set the force to this value. Can be useful for
+    * some spells with fixed effects or targets that should not
+    * be affected by the Ground and Arena.
+    * @param v   The Vector to set the force to
+    */
+   public void setForce(Vector v)
+   {
+      force = v;
+   }
+   
+   /** Change the mass of this physical to this value. Can be
+    * useful for explosions and other effects that need changing mass.
+    * @param m   The float value to change the mass to.
+    */
+   public void setMass(float m)
+   {
+      mass = m;
+   }
+   
+   /**
+    * Move the location of this Physical as is appropriate
+    * with its current force. Also contains logic to see
+    * what is should do about level boundaries.
+    */
+   public void move()
+   {
+      x += force.x;
+      y += force.y;
+      
+      //If below the bottom of the screen
+      if (y+height/2 >= Global.SCREEN_SIZE.height)
+      {
+         if (!Global.WRAPPING_FLOOR)
+            Arena.remove(this);
+         else
+            y = -height/2;
+      }
+      //If above the top of the screen
+      else if (y+height/2 <= 0)
+      {
+         if (!Global.OPEN_CEILING)
+            force.y *= -1;
+      }
+      //If past the left or right side of the screen
+      if (x+width/2 >= Global.SCREEN_SIZE.width || x-width/2 <= 0)
+      {
+         if (Global.WRAPPING_WALLS)
+         {
+            if (x-width/2 <= 0)
+               x = Global.SCREEN_SIZE.width+width/2-1;
+            else
+               x = -width/2+1;
+         }
+         else
+            force.x *= -1;
+      }
+   }
+   
+   /** Change the location of this Physical manually.
+    * @param newX   The new x location of the top left corner
+    * @param newY   The new y location of the top left corner
+    */
+   public void move(float newX, float newY)
+   {
+      x = newX;
+      y = newY;
+   }
+   
+   /**
+    * Directly move the location of this Physical manually.
+    * @param deltaX   The change in x to move
+    * @param deltaY   The change in y to move
+    */
+   public void moveTo(float deltaX, float deltaY)
+   {
+      x += deltaX;
+      y += deltaY;
+   }
+   
+   /**
+    * Resize this Physical, can be useful for some spells
+    * and for explosions. 
+    * @param w   The new width
+    * @param h   The new height
+    */
+   public void resize(int w, int h)
+   {
+      width = w;
+      height = h;
+   }
+   
+   public java.awt.Point collided(Physical p)
+   {
+      try
+      {
+         int[] size = new int[4];
+         BufferedImage b = p.bounds(); Vector o = p.position();
+         //If hitTest rectangles intersect, check for pixel-by-pixel collision
+         Rectangle r = new Rectangle((int)o.x,(int)o.y,(int)o.x+b.getWidth(),(int)o.y+b.getHeight());
+         if (r.intersects(new Rectangle((int)x,(int)y,(int)width,(int)height)))
+         {
+            //Cycle through all pixels within the colliding physical
+            if (b.getWidth()*b.getHeight() < width*height)
+               return collisionHelper(b,p.position(),bounds(),new Vector(x,y),size);
+            else
+               return collisionHelper(bounds(),new Vector(x,y),b,p.position(),size);
+         }
+      }
+      catch (Exception e) {}
+      return null;
+   }
+   
+   public java.awt.Point collided(BufferedImage b, Vector o)
+   {
+      try
+      {
+         int[] size = new int[4];
+         //If hitTest rectangles intersect, check for pixel-by-pixel collision
+         Rectangle r = new Rectangle((int)o.x,(int)o.y,(int)o.x+b.getWidth(),(int)o.y+b.getHeight());
+         if (r.intersects(new Rectangle((int)x,(int)y,(int)width,(int)height)))
+         {
+            //Cycle through all pixels within the colliding physical
+            if (b.getWidth()*b.getHeight() < width*height)
+               return collisionHelper(b,o,bounds(),new Vector(x,y),size);
+            else
+               return collisionHelper(bounds(),new Vector(x,y),b,o,size);
+         }
+      }
+      catch (Exception e) {}
+      return null;
+   }
+   
+   private java.awt.Point collisionHelper(BufferedImage a, Vector aPos, BufferedImage b, Vector bPos, int[] size)
+   {
+      for (int i = 0; i < a.getWidth(); i++)
+      {
+         for (int j = 0; j < a.getHeight(); j++)
+         {
+            //If this point is not transparent (i.e. is existant)
+            if (a.getRaster().getPixel(i,j,size)[3] != 0)
+            {
+               //TODO FIX THIS I NEED P TO BE RIGHT, AND BOUNDS TO BE RIGHT
+               //If the matching point within the ground is also not transparent, we have collision.
+               if (b.getRaster().getPixel((int)(bPos.x+aPos.x+i),(int)(bPos.y+aPos.y+j),size)[3] != 0)
+                  return new java.awt.Point((int)(i+aPos.x),(int)(j+aPos.y));
+            }
+         }
+      }
+      return null;
+   }
+   
+   /**
+    * Draw the Physical, this is abstract, as generic Physicals
+    * don't have anything to draw.
+    * @param g   The Graphics context to draw onto.
+    */
+   public void draw(java.awt.Graphics g) {}
+}

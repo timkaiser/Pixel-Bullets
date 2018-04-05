@@ -1,0 +1,20 @@
+import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.Color;
+import java.awt.Rectangle;
+
+public class NiedrigesHindernis extends Hindernis{
+
+    public NiedrigesHindernis(Color farbe, double x, double y, int breite, int hoehe){
+        super(farbe,x,y,breite,hoehe);       
+    }
+    
+    
+    public boolean kollision(Rectangle r, Projektil p ){
+        if(kollision(r)){
+            p.kollisdiertMitNiedrigemHindernis();
+        }
+        return false;
+    }
+
+}

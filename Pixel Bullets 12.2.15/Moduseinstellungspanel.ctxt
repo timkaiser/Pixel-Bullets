@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=modus\ container
+comment0.target=Moduseinstellungspanel(Spielmodus,\ Fenster)
+comment1.params=
+comment1.target=void\ addLebensAuswahl()
+comment2.params=
+comment2.target=void\ addKillsAuswahl()
+comment3.params=
+comment3.target=void\ addZeitAuswahl()
+comment4.params=g
+comment4.target=void\ paintComponent(java.awt.Graphics)
+comment5.params=e
+comment5.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment6.params=mapsP
+comment6.target=void\ setMaps(java.lang.String[])
+comment7.params=
+comment7.target=void\ allesUnsichtbar()
+numComments=8

@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=
+comment0.target=GunGame()
+comment1.params=
+comment1.target=void\ schleife()
+comment2.params=sp
+comment2.target=Waffe\ getStartwaffe(Spieler)
+comment3.params=
+comment3.target=Spieler\ gibGewinnerFallsZuende()
+comment4.params=g\ panel\ genauigkeit\ zeichenfeld
+comment4.target=void\ zeichnen(java.awt.Graphics,\ javax.swing.JPanel,\ int,\ java.awt.image.BufferedImage)
+comment5.params=spieler\ i
+comment5.target=java.lang.String\ ueberSpielerZeichnen(java.util.ArrayList,\ int)
+comment6.params=g\ panel\ x\ y\ width\ height
+comment6.target=void\ drawWinscreen(java.awt.Graphics,\ javax.swing.JPanel,\ int,\ int,\ int,\ int)
+comment7.params=container
+comment7.target=Moduseinstellungspanel\ getEinstellungspanel(Fenster)
+numComments=8

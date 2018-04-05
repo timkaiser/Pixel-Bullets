@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=x\ y\ reichweite\ schaden\ spieler\ waffe
+comment0.target=Mine(double,\ double,\ int,\ int,\ Spieler,\ Minenleger)
+comment1.params=
+comment1.target=void\ bewegungBerechnen()
+comment2.params=g\ panel
+comment2.target=void\ zeichnen(java.awt.Graphics,\ javax.swing.JPanel)
+comment3.params=
+comment3.target=void\ sprengen()
+numComments=4

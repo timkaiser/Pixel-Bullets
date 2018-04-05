@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=x\ y\ b\ h\ font\ c
+comment0.target=Spielerauswahlpanel(double,\ double,\ double,\ double,\ java.awt.Font,\ java.awt.Container)
+comment1.params=e
+comment1.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment2.params=frameBreite\ frameHoehe
+comment2.target=void\ skallieren(int,\ int)
+comment3.params=
+comment3.target=java.lang.String[]\ getNamen()
+comment4.params=b
+comment4.target=void\ printBorder(boolean)
+comment5.params=g
+comment5.target=void\ paintComponent(java.awt.Graphics)
+numComments=6

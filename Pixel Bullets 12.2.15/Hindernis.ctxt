@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=farbe\ x\ y\ breite\ hoehe
+comment0.target=Hindernis(java.awt.Color,\ double,\ double,\ int,\ int)
+comment1.params=g\ panel
+comment1.target=void\ zeichnen(java.awt.Graphics,\ javax.swing.JPanel)
+comment2.params=r\ p
+comment2.target=boolean\ kollision(java.awt.Rectangle,\ Projektil)
+comment3.params=r\ s
+comment3.target=boolean\ kollision(java.awt.Rectangle,\ Spieler)
+comment4.params=r\ npc
+comment4.target=boolean\ kollision(java.awt.Rectangle,\ NPC)
+comment5.params=
+comment5.target=void\ berechnen()
+comment6.params=
+comment6.target=boolean\ istNiedrig()
+comment7.params=
+comment7.target=java.awt.Color\ getColor()
+numComments=8

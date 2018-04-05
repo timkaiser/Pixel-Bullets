@@ -1,0 +1,29 @@
+import java.awt.*;
+import javax.swing.*;
+public class GUIItemBox extends SpielerGUI{
+    private Items item;
+    public GUIItemBox(double x,double y,double width,double height){
+        super(x,y,width,height);
+        item = null;
+    }
+
+    public void zeichnen(Graphics g,JPanel panel){
+        g.setColor(Color.WHITE);
+        g.drawRect(getX(),getY(),getWidth(),getHeight());
+        if(item != null){
+            g.drawImage(item.getImage(),getX(),getY(),getWidth(),getHeight(),panel);
+        }
+    }
+
+    public void berechnen(int containerWidth,int containerHeight){
+        x = (int)(containerWidth*xProzent);
+        y = (int)(containerHeight*yProzent);
+
+        height = (int)(containerHeight*heightProzent);
+        width = height;
+    }
+    
+    public void setItem(Items item){
+        this.item = item;
+    }
+}

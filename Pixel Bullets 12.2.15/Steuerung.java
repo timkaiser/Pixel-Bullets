@@ -1,0 +1,325 @@
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+public class Steuerung implements KeyListener{
+    private static boolean[] keys=new boolean[512];
+    private static int oben1 = KeyEvent.VK_W;
+    private static int oben2 = KeyEvent.VK_UP;
+    private static int oben3 = KeyEvent.VK_8;
+    private static int oben4 = KeyEvent.VK_I;
+    private static int links1 = KeyEvent.VK_A;
+    private static int links2 = KeyEvent.VK_LEFT;
+    private static int links3 = KeyEvent.VK_4;
+    private static int links4 = KeyEvent.VK_J;
+    private static int rechts1 = KeyEvent.VK_D;
+    private static int rechts2 = KeyEvent.VK_RIGHT;
+    private static int rechts3 = KeyEvent.VK_6;
+    private static int rechts4 = KeyEvent.VK_L;
+    private static int unten1 = KeyEvent.VK_S;
+    private static int unten2 = KeyEvent.VK_DOWN;
+    private static int unten3 = KeyEvent.VK_5;
+    private static int unten4 = KeyEvent.VK_K;
+    private static int schiessen1 = KeyEvent.VK_X;
+    private static int schiessen2 = 96;
+    private static int schiessen3 = KeyEvent.VK_1;
+    private static int schiessen4 = KeyEvent.VK_COMMA;
+    private static int ducken1 = KeyEvent.VK_C;
+    private static int ducken2 = 17;
+    private static int ducken3 = KeyEvent.VK_2;
+    private static int ducken4 = KeyEvent.VK_PERIOD;
+    private static int pause = KeyEvent.VK_ESCAPE;
+
+    private static boolean pauseAn=false;
+    Spielschleife loop;
+    public Steuerung(Spielschleife loop){
+        this.loop=loop;
+    }
+
+    public void indirektesInputUeberpruefung(){
+        if(loop.getSpielmodus().gibGewinnerFallsZuende()==null){
+            if(Objektmanager.getSpieler().size()>=1){
+                if(isKeyDown(rechts1)){
+                    Objektmanager.getSpieler(0).bewegenRechts();
+                }else if(isKeyDown(links1)){  
+                    Objektmanager.getSpieler(0).bewegenLinks();
+                }
+                if(isKeyDown(oben1)){
+                    Objektmanager.getSpieler(0).bewegenHoch();
+                }else if(isKeyDown(unten1)){ 
+                    Objektmanager.getSpieler(0).bewegenRunter();
+                }
+                if(isKeyDown(schiessen1)){
+                    Objektmanager.getSpieler(0).angriff();
+                }
+                if(isKeyDown(ducken1)){
+                    Objektmanager.getSpieler(0).ducken();
+                }else{
+                    Objektmanager.getSpieler(0).aufstehen();
+                }
+            }
+            if(Objektmanager.getSpieler().size()>=2){
+                if(isKeyDown(rechts2)){
+                    Objektmanager.getSpieler(1).bewegenRechts();
+                }else if(isKeyDown(links2)){  
+                    Objektmanager.getSpieler(1).bewegenLinks();
+                }
+                if(isKeyDown(oben2)){
+                    Objektmanager.getSpieler(1).bewegenHoch();
+                }else if(isKeyDown(unten2)){ 
+                    Objektmanager.getSpieler(1).bewegenRunter();
+                }
+                if(isKeyDown(schiessen2)){
+                    Objektmanager.getSpieler(1).angriff();
+                }
+                if(isKeyDown(ducken2)){
+                    Objektmanager.getSpieler(1).ducken();
+                }else{
+                    Objektmanager.getSpieler(1).aufstehen();
+                }
+            }
+            if(Objektmanager.getSpieler().size()>=3){
+                if(isKeyDown(rechts3)){
+                    Objektmanager.getSpieler(2).bewegenRechts();
+                }else if(isKeyDown(links3)){  
+                    Objektmanager.getSpieler(2).bewegenLinks();
+                }
+                if(isKeyDown(oben3)){
+                    Objektmanager.getSpieler(2).bewegenHoch();
+                }else if(isKeyDown(unten3)){ 
+                    Objektmanager.getSpieler(2).bewegenRunter();
+                }
+                if(isKeyDown(schiessen3)){
+                    Objektmanager.getSpieler(2).angriff();
+                }
+                if(isKeyDown(ducken3)){
+                    Objektmanager.getSpieler(2).ducken();
+                }else{
+                    Objektmanager.getSpieler(2).aufstehen();
+                }
+            }
+            if(Objektmanager.getSpieler().size()>=4){
+                if(isKeyDown(rechts4)){
+                    Objektmanager.getSpieler(3).bewegenRechts();
+                }else if(isKeyDown(links4)){  
+                    Objektmanager.getSpieler(3).bewegenLinks();
+                }
+                if(isKeyDown(oben4)){
+                    Objektmanager.getSpieler(3).bewegenHoch();
+                }else if(isKeyDown(unten4)){ 
+                    Objektmanager.getSpieler(3).bewegenRunter();
+                }
+                if(isKeyDown(schiessen4)){
+                    Objektmanager.getSpieler(3).angriff();
+                }
+                if(isKeyDown(ducken4)){
+                    Objektmanager.getSpieler(3).ducken();
+                }else{
+                    Objektmanager.getSpieler(3).aufstehen();
+                }
+            }
+        }
+    }
+
+    private void direktesInput(KeyEvent e){     
+        if(e.getKeyCode() == pause){ 
+            if(!pauseAn){
+                loop.pausieren();
+                Fenster.pausenmenueAufrufen(true);
+                pauseAn = true;
+            }else{
+                Spielschleife.spielPausieren();
+                Steuerung.setPauseAn(false);
+                Fenster.pausenmenueAufrufen(false);
+            }
+        }
+    }
+
+    public static boolean isKeyDown(int keyCode){
+        if(keyCode >= 0 &&keyCode<keys.length){
+            return keys[keyCode];
+        }
+        else{
+            return false;
+        }
+    }
+
+    public void keyPressed(KeyEvent e){
+        int keyCode = e.getKeyCode();
+        if(keyCode>= 0 &&keyCode<keys.length){
+            keys[keyCode] = true;
+        }
+
+        direktesInput(e);
+    }   
+
+    public void keyReleased(KeyEvent e){
+        int keyCode = e.getKeyCode();
+        if(keyCode>= 0 &&keyCode<keys.length){
+            keys[keyCode] = false;
+        }
+    }  
+
+    public void keyTyped(KeyEvent e){
+        int keyCode = e.getKeyCode();
+        if(keyCode>= 0 &&keyCode<keys.length){
+            keys[keyCode] = true;
+        }
+
+    }
+
+    public static void setPauseAn(boolean an){
+        pauseAn=an;
+    }
+
+    public static void setOben1(int taste){oben1=taste;}
+
+    public static void setOben2(int taste){oben2=taste;}
+
+    public static void setOben3(int taste){oben3=taste;}
+
+    public static void setOben4(int taste){oben4=taste;}
+
+    public static void setLinks1(int taste){links1=taste;}
+
+    public static void setLinks2(int taste){links2=taste;}
+
+    public static void setLinks3(int taste){links3=taste;}
+
+    public static void setLinks4(int taste){links4=taste;}
+
+    public static void setRechts1(int taste){rechts1=taste;}
+
+    public static void setRechts2(int taste){rechts2=taste;}
+
+    public static void setRechts3(int taste){rechts3=taste;}
+
+    public static void setRechts4(int taste){rechts4=taste;}
+
+    public static void setUnten1(int taste){unten1=taste;}
+
+    public static void setUnten2(int taste){unten2=taste;}
+
+    public static void setUnten3(int taste){unten3=taste;}
+
+    public static void setUnten4(int taste){unten4=taste;}
+
+    public static void setSchiessen1(int taste){schiessen1=taste;}
+
+    public static void setSchiessen2(int taste){schiessen2=taste;}
+
+    public static void setSchiessen3(int taste){schiessen3=taste;}
+
+    public static void setSchiessen4(int taste){schiessen4=taste;}
+
+    public static void setDucken1(int taste){ducken1=taste;}
+
+    public static void setDucken2(int taste){ducken2=taste;}
+
+    public static void setDucken3(int taste){ducken3=taste;}
+
+    public static void setDucken4(int taste){ducken4=taste;}
+
+    public static void setPause(int taste){pause=taste;}
+
+    public static int getOben1(){return oben1;}
+
+    public static int getOben2(){return oben2;}
+
+    public static int getOben3(){return oben3;}
+
+    public static int getOben4(){return oben4;}
+
+    public static int getLinks1(){return links1;}
+
+    public static int getLinks2(){return links2;}
+
+    public static int getLinks3(){return links3;}
+
+    public static int getLinks4(){return links4;}
+
+    public static int getRechts1(){return rechts1;}
+
+    public static int getRechts2(){return rechts2;}
+
+    public static int getRechts3(){return rechts3;}
+
+    public static int getRechts4(){return rechts4;}
+
+    public static int getUnten1(){return unten1;}
+
+    public static int getUnten2(){return unten2;}
+
+    public static int getUnten3(){return unten3;}
+
+    public static int getUnten4(){return unten4;}
+
+    public static int getSchiessen1(){return schiessen1;}
+
+    public static int getSchiessen2(){return schiessen2;}
+
+    public static int getSchiessen3(){return schiessen3;}
+
+    public static int getSchiessen4(){return schiessen4;}
+
+    public static int getDucken1(){return ducken1;}
+
+    public static int getDucken2(){return ducken2;}
+
+    public static int getDucken3(){return ducken3;}
+
+    public static int getDucken4(){return ducken4;}
+
+    public static int getPause(){return pause;}
+
+    public static String getOben1Text(){return KeyEvent.getKeyText(oben1);}
+
+    public static String getOben2Text(){return KeyEvent.getKeyText(oben2);}
+
+    public static String getOben3Text(){return KeyEvent.getKeyText(oben3);}
+
+    public static String getOben4Text(){return KeyEvent.getKeyText(oben4);}
+
+    public static String getLinks1Text(){return KeyEvent.getKeyText(links1);}
+
+    public static String getLinks2Text(){return KeyEvent.getKeyText(links2);}
+
+    public static String getLinks3Text(){return KeyEvent.getKeyText(links3);}
+
+    public static String getLinks4Text(){return KeyEvent.getKeyText(links4);}
+
+    public static String getRechts1Text(){return KeyEvent.getKeyText(rechts1);}
+
+    public static String getRechts2Text(){return KeyEvent.getKeyText(rechts2);}
+
+    public static String getRechts3Text(){return KeyEvent.getKeyText(rechts3);}
+
+    public static String getRechts4Text(){return KeyEvent.getKeyText(rechts4);}
+
+    public static String getUnten1Text(){return KeyEvent.getKeyText(unten1);}
+
+    public static String getUnten2Text(){return KeyEvent.getKeyText(unten2);}
+
+    public static String getUnten3Text(){return KeyEvent.getKeyText(unten3);}
+
+    public static String getUnten4Text(){return KeyEvent.getKeyText(unten4);}
+
+    public static String getSchiessen1Text(){return KeyEvent.getKeyText(schiessen1);}
+
+    public static String getSchiessen2Text(){return KeyEvent.getKeyText(schiessen2);}
+
+    public static String getSchiessen3Text(){return KeyEvent.getKeyText(schiessen3);}
+
+    public static String getSchiessen4Text(){return KeyEvent.getKeyText(schiessen4);}
+
+    public static String getDucken1Text(){return KeyEvent.getKeyText(ducken1);}
+
+    public static String getDucken2Text(){return KeyEvent.getKeyText(ducken2);}
+
+    public static String getDucken3Text(){return KeyEvent.getKeyText(ducken3);}
+
+    public static String getDucken4Text(){return KeyEvent.getKeyText(ducken4);}
+
+    public static String getPauseText(){return KeyEvent.getKeyText(pause);}
+
+}
+

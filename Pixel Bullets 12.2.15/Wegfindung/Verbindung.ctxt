@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Verbindung()
+comment1.params=p
+comment1.target=void\ addEndpunkt(Knoten)
+comment2.params=
+comment2.target=Knoten[]\ getEndpunkte()
+comment3.params=
+comment3.target=int\ getLaenge()
+comment4.params=
+comment4.target=Verbindung\ getVerbindungRueckwaerts()
+numComments=5

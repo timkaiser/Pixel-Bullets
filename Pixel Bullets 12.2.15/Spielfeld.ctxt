@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=map\ modus\ name
+comment0.target=Spielfeld(java.lang.String,\ Spielmodus,\ java.lang.String[])
+comment1.params=g
+comment1.target=void\ paintComponent(java.awt.Graphics)
+comment2.params=
+comment2.target=javax.swing.JPanel\ getSpielfeld()
+numComments=3

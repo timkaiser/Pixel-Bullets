@@ -1,0 +1,352 @@
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+
+public class Bilder{
+
+    private static String[] ordner;
+    private static char[] speicherCodes;
+    private static BufferedImage bilder[][],sprites[][][][],masken[][][][];// 4 DIMENSIONEN!!!!!!
+
+    public static BufferedImage spieler[], spielermaske, fledermaus, fledermausmaske, spinne, spinnenmaske, ratte[], ratteWeiss[], rattenmaske,
+    baum,baummaske, huette, huettenmaske,schwerter[],schwerterMaske[],stein,steinMaske, npc[], npcmaske;
+
+    public Bilder(){
+        //Bilder
+        spieler = new BufferedImage[4];
+
+        spieler[0] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//spieler.png",0,0,76,36);
+        spieler[1] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//spieler.png",0,36,76,36);
+        spieler[2] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//spieler.png",0,72,76,36);
+        spieler[3] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//spieler.png",0,108,76,36);
+        spielermaske = bildHinzufuegenAusPfad("texturen//Masken//Sonstiges//spieler.png");        
+
+        fledermaus = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//fledermaus.png");
+        fledermausmaske = bildHinzufuegenAusPfad("texturen//Masken//Sonstiges//fledermaus.png");
+
+        ratte = new BufferedImage[4];
+        ratteWeiss = new BufferedImage[4];
+
+        ratte[0] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//ratte.png",0,0,20,20);
+        ratte[1] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//ratte.png",20,0,20,20);
+        ratte[2] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//ratte.png",40,0,20,20);
+        ratte[3] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//ratte.png",60,0,20,20);
+
+        ratteWeiss[0] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//ratte_weiss.png",0,0,20,20);
+        ratteWeiss[1] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//ratte_weiss.png",20,0,20,20);
+        ratteWeiss[2] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//ratte_weiss.png",40,0,20,20);
+        ratteWeiss[3] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//ratte_weiss.png",60,0,20,20);
+
+        rattenmaske = bildHinzufuegenAusPfad("texturen//Masken//Sonstiges//ratte.png");
+
+        spinne = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//spinne.png");
+        spinnenmaske = bildHinzufuegenAusPfad("texturen//Masken//Sonstiges//spinne.png");
+        
+        baum = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//baum.png");
+        baummaske = bildHinzufuegenAusPfad("texturen//Masken//Sonstiges//baum.png");
+        
+        huette = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//huette.png");
+        huettenmaske = bildHinzufuegenAusPfad("texturen//Masken//Sonstiges//huette.png");
+
+        npc = new BufferedImage[3];
+        npc[0] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//NPC1.png");
+        npc[1] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//NPC2.png");
+        npc[2] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//NPC3.png");
+        npcmaske = bildHinzufuegenAusPfad("texturen//Masken//Sonstiges//NPCMaske.png");
+
+        schwerter = new BufferedImage[4];
+        schwerterMaske = new BufferedImage[4];
+
+        for(int i = 0; i < schwerter.length;i++){
+            schwerter[i] = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//schwerter.png",i*33,0,33,44);
+        }
+
+        for(int i = 0; i < schwerterMaske.length;i++){
+            schwerterMaske[i] = bildHinzufuegenAusPfad("texturen//Masken//Sonstiges//schwerter.png",i*33,0,33,44);
+        }
+
+        stein = bildHinzufuegenAusPfad("texturen//Bilder//Sonstiges//stein.png");
+        steinMaske = bildHinzufuegenAusPfad("texturen//Masken//Sonstiges//stein.png");
+
+        
+        File dir = new File("texturen//Bilder");
+        ordner = dir.list(new FilenameFilter() {
+                public boolean accept(File d, String name) {
+                    return name.startsWith("Ordner");
+                }
+            });
+
+        File[] ordnerDurchsuchen = new File[ordner.length];
+        String[][] dateienInOrdner = new String[ordner.length][];
+        for(int i = 0; i < ordner.length;i++){
+            ordnerDurchsuchen[i] = new File("texturen//Bilder" + "//" +ordner[i]);            
+            dateienInOrdner[i] = ordnerDurchsuchen[i].list(new FilenameFilter() {
+                    public boolean accept(File d, String name) {
+                        return name.endsWith(".png");
+                    }
+                });
+        }
+
+        speicherCodes = new char[ordner.length];
+
+        for(int i = 0; i < speicherCodes.length;i++){
+            speicherCodes[i] = ordner[i].charAt(7);
+        }
+
+        sprites = new BufferedImage[ordner.length][][][];
+
+        bilder = new BufferedImage[sprites.length][];
+
+        for(int i = 0; i < sprites.length;i++){
+            sprites[i] = new BufferedImage[dateienInOrdner[i].length][][];
+            bilder[i] = new BufferedImage[sprites[i].length];
+        }
+
+        for(int i = 0; i < bilder.length;i++){
+            for(int j = 0; j < bilder[i].length;j++){
+                for(int w = 0; w < dateienInOrdner[i].length;w++){
+                    bilder[i][j] = bildHinzufuegen("texturen//Bilder" + "//" + ordner[i] +"//"+ dateienInOrdner[i][j]);
+                }
+            }
+        }
+
+        for(int i = 0;i < sprites.length;i++){
+            for(int j = 0; j < sprites[i].length;j++){
+                sprites[i][j] = new BufferedImage[bilder[i][j].getHeight()/16][bilder[i][j].getWidth()/16];
+                for(int w = 0; w < sprites[i][j].length;w++){
+                    for(int k = 0; k < sprites[i][j][w].length;k++){ 
+                        sprites[i][j][w][k] = bildZerlegen(bilder[i][j],k*16,w*16,16,16);
+                    }
+                }
+            }
+        }
+
+        //Masken
+        dir = new File("texturen//Masken");
+        ordner = dir.list(new FilenameFilter() {
+                public boolean accept(File d, String name) {
+                    return name.startsWith("Ordner");
+                }
+            });
+
+        ordnerDurchsuchen = new File[ordner.length];
+        dateienInOrdner = new String[ordner.length][];
+        for(int i = 0; i < ordner.length;i++){
+            ordnerDurchsuchen[i] = new File("texturen//Masken" + "//" +ordner[i]);            
+            dateienInOrdner[i] = ordnerDurchsuchen[i].list(new FilenameFilter() {
+                    public boolean accept(File d, String name) {
+                        return name.endsWith(".png");
+                    }
+                });
+        }
+
+        speicherCodes = new char[ordner.length];
+
+        for(int i = 0; i < speicherCodes.length;i++){
+            speicherCodes[i] = ordner[i].charAt(7);
+        }
+
+        masken = new BufferedImage[ordner.length][][][];
+
+        bilder = new BufferedImage[masken.length][];
+
+        for(int i = 0; i < masken.length;i++){
+            masken[i] = new BufferedImage[dateienInOrdner[i].length][][];
+            bilder[i] = new BufferedImage[masken[i].length];
+        }
+
+        for(int i = 0; i < bilder.length;i++){
+            for(int j = 0; j < bilder[i].length;j++){
+                for(int w = 0; w < dateienInOrdner[i].length;w++){
+                    bilder[i][j] = bildHinzufuegen("texturen//Masken" + "//" + ordner[i] +"//"+ dateienInOrdner[i][j]);
+                }
+            }
+        }
+
+        for(int i = 0;i < masken.length;i++){
+            for(int j = 0; j < masken[i].length;j++){
+                masken[i][j] = new BufferedImage[bilder[i][j].getHeight()/16][bilder[i][j].getWidth()/16];
+                for(int w = 0; w < masken[i][j].length;w++){
+                    for(int k = 0; k < masken[i][j][w].length;k++){ 
+                        masken[i][j][w][k] = bildZerlegen(bilder[i][j],k*16,w*16,16,16);
+                    }
+                }
+            }
+        }
+    }
+
+    public BufferedImage bildHinzufuegen(String pfad){
+        BufferedImage img = null;
+        try {       img = ImageIO.read(getClass().getResource(pfad));
+        } catch (IOException e) {}
+        return  img;
+    }
+
+    public BufferedImage bildZerlegen(BufferedImage image, int x, int y, int b, int h){
+        BufferedImage img = null;
+        img = image.getSubimage(x,y,b,h);
+        return  img;
+    }
+
+    public static BufferedImage getSprite(char code,int zahl){
+        int index = 0;
+        for(int i = 0; i< speicherCodes.length;i++){
+            if(code == speicherCodes[i]){
+                index = i;
+            }
+        }
+
+        int counter=zahl;
+        BufferedImage img = null;
+
+        for(int j = 0; j < sprites[index].length;j++){
+            for(int w = 0; w < sprites[index][j].length;w++){
+                for(int k = 0; k < sprites[index][j][w].length;k++){
+
+                    if(counter <= 0){
+                        img = sprites[index][j][w][k];
+                        break;
+                    }
+                    counter--;
+                }
+                if(img != null){
+                    break;
+                }
+            }
+            if(img!= null){
+                break;
+            }
+        }
+
+        return img;
+    }
+
+    public static BufferedImage getMaske(char code,int zahl){
+        int index = 0;
+        for(int i = 0; i< speicherCodes.length;i++){
+            if(code == speicherCodes[i]){
+                index = i;
+            }
+        }
+
+        int counter=zahl;
+        BufferedImage img = null;
+
+        for(int j = 0; j < masken[index].length;j++){
+            for(int w = 0; w < masken[index][j].length;w++){
+                for(int k = 0; k < masken[index][j][w].length;k++){
+
+                    if(counter <= 0){
+                        img = masken[index][j][w][k];
+                        break;
+                    }
+                    counter--;
+                }
+                if(img != null){
+                    break;
+                }
+            }
+            if(img!= null){
+                break;
+            }
+        }
+
+        return img;
+    }
+
+    public static BufferedImage getSpielerbild(int index){
+        return spieler[index];
+    }
+
+    public static BufferedImage getSpielermaske(){
+        return spielermaske;
+    }
+
+    public static BufferedImage getBaumbild(){
+        return baum;
+    }
+    
+    public static BufferedImage getBaummaske(){
+        return baummaske;
+    }
+    
+    public static BufferedImage getHuettebild(){
+        return huette;
+    }
+    
+    public static BufferedImage getHuettenmaske(){
+        return huettenmaske;
+    }
+
+    public static BufferedImage getFledermausbild(){
+        return fledermaus;
+    }
+
+    public static BufferedImage getRattebild(int index){
+        return ratte[index];
+    }
+
+    public static BufferedImage getRatteWeissbild(int index){
+        return ratteWeiss[index];
+    }
+
+    public static BufferedImage getRattemaske(){
+        return rattenmaske;
+    }  
+
+    public static BufferedImage getSpinnebild(){
+        return spinne;
+    }
+
+    public static BufferedImage getSpinnemaske(){
+        return spinnenmaske;
+    }
+
+    public static BufferedImage getFledermausmaske(){
+        return fledermausmaske;
+    }
+
+    public static BufferedImage getNPCBild(int i){
+        return npc[i];
+    }
+
+    public static BufferedImage getNPCMaske(){
+        return npcmaske;
+    }
+
+    //Bild aus pfad
+    public BufferedImage bildHinzufuegenAusPfad(String pfad){
+        BufferedImage img = null;
+        try {       img = ImageIO.read(getClass().getResource(pfad));
+        } catch (IOException e) {}
+        return  img;
+    }
+    //Bildausschnitt aus pfad an der Position x/y mit Hoehe h und Breite b in Pixeln
+    public BufferedImage bildHinzufuegenAusPfad(String pfad, int x, int y, int h, int b){
+        BufferedImage img = null;
+        try {       img = (ImageIO.read(getClass().getResource(pfad))).getSubimage(x,y,h,b);
+        } catch (IOException e) {}
+        return  img;
+    }
+    //Bildausschnitt aus pfad an der Position x/y (in Pixeln) mit Hoehe und Breite 16px 
+    public BufferedImage bildHinzufuegenAusPfad(String pfad, int x, int y){
+        BufferedImage img = null;
+        try {       img = (ImageIO.read(getClass().getResource(pfad))).getSubimage(x,y,16,16);
+        } catch (IOException e) {}
+        return  img;
+    }
+    //Bildausschnitt aus pfad an der Position x/y mit Hoehe h und Breite b in Bloecken (1 Block = 16px)
+    public BufferedImage bildHinzufuegenAusPfad(String pfad, double x, double y, double h, double b){
+        BufferedImage img = null;
+        try {       img = (ImageIO.read(getClass().getResource(pfad))).getSubimage((int)x*16,(int)y*16,(int)h*16,(int)b*16);
+        } catch (IOException e) {}
+        return  img;
+    }
+    //Bildausschnitt aus pfad an der Position x/y (in Bloecken) mit Hoehe und Breite 16px 
+    public BufferedImage bildHinzufuegenAusPfad(String pfad, double x, double y){
+        BufferedImage img = null;
+        try {       img = (ImageIO.read(getClass().getResource(pfad))).getSubimage((int)x*16,(int)y*16,16,16);
+        } catch (IOException e) {}
+        return  img;
+    }
+}

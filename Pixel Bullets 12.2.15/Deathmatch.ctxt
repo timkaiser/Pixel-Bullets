@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Deathmatch()
+comment1.params=
+comment1.target=void\ schleife()
+comment2.params=
+comment2.target=Spieler\ gibGewinnerFallsZuende()
+comment3.params=g\ panel\ genauigkeit\ zeichenfeld
+comment3.target=void\ zeichnen(java.awt.Graphics,\ javax.swing.JPanel,\ int,\ java.awt.image.BufferedImage)
+comment4.params=spieler\ i
+comment4.target=java.lang.String\ ueberSpielerZeichnen(java.util.ArrayList,\ int)
+comment5.params=g\ panel\ x\ y\ width\ height
+comment5.target=void\ drawWinscreen(java.awt.Graphics,\ javax.swing.JPanel,\ int,\ int,\ int,\ int)
+comment6.params=container
+comment6.target=Moduseinstellungspanel\ getEinstellungspanel(Fenster)
+numComments=7

@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=pfad
+comment0.target=Sound(java.lang.String)
+comment1.params=
+comment1.target=void\ start()
+comment2.params=
+comment2.target=void\ stop()
+comment3.params=
+comment3.target=void\ loop()
+comment4.params=
+comment4.target=void\ lautstaerkeErhoehen()
+comment5.params=
+comment5.target=void\ lautstaerkeSenken()
+numComments=6

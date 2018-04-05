@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=x\ y\ b\ h\ jc
+comment0.target=Auswahlregler(double,\ double,\ double,\ double,\ java.awt.Container)
+comment1.params=x\ y\ b\ h\ font\ jc
+comment1.target=Auswahlregler(double,\ double,\ double,\ double,\ java.awt.Font,\ java.awt.Container)
+comment2.params=x\ y\ b\ h\ start\ min\ max\ schrittweite\ font\ jc
+comment2.target=Auswahlregler(double,\ double,\ double,\ double,\ int,\ int,\ int,\ int,\ java.awt.Font,\ java.awt.Container)
+comment3.params=frameBreite\ frameHoehe
+comment3.target=void\ skallieren(int,\ int)
+comment4.params=e
+comment4.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment5.params=
+comment5.target=void\ textAktualisieren()
+comment6.params=
+comment6.target=int\ getZaehler()
+numComments=7

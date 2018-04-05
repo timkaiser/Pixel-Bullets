@@ -1,0 +1,161 @@
+/*
+import java.awt.*;
+
+public class GUITextFeld extends GUIFenster{
+private String text;
+private String textAbschnitte[][];
+private int position;
+public GUITextFeld(String text){
+super(0,1,1,0.2);
+this.text = text;
+position = 0;
+if(text.length() > 60){
+if(text.length() % 60 != 0){
+if(((text.length()/60)+1) % 4 != 0){ 
+textAbschnitte = new String[(((text.length()/60)+1) / 4)+1][4];
+}
+else{
+if((text.length()/60)/4 != 0){
+textAbschnitte = new String[(((text.length()/60)) / 4)][4];
+}
+else{
+textAbschnitte = new String[(((text.length()/60)) / 4)+1][4];
+}
+}
+}
+else{
+if(((text.length()/60)) % 4 != 0){ 
+textAbschnitte = new String[(((text.length()/60)) / 4)+1][4];
+}
+else{
+if((text.length()/60)/4 != 0){
+textAbschnitte = new String[(((text.length()/60)) / 4)][4];
+}
+else{
+textAbschnitte = new String[(((text.length()/60)) / 4)+1][4];
+}
+}
+}
+int letzterPunkt = 0;
+
+for(int i = 0; i < textAbschnitte.length;i++){
+for(int j = 0; j < textAbschnitte[i].length;j++){
+if(letzterPunkt+60 > text.length()){
+textAbschnitte[i][j] = text.substring(letzterPunkt,text.length());
+letzterPunkt = text.length();
+}
+else{
+int index = letzterPunkt;
+for(int w = letzterPunkt+60;  w < text.length()&& w < letzterPunkt+66 &&text.charAt(w) != ' ' ;w++){
+index = w;
+}
+textAbschnitte[i][j] = text.substring(letzterPunkt,index+1);
+letzterPunkt = index+1;
+}
+}
+}
+}
+
+}
+
+public void zeichnen(Graphics g){
+super.zeichnen(g);
+
+g.setColor(Color.WHITE);
+Font font = new Font("Arial",Font.BOLD,(int)(getHeightProzent()*height));
+g.setFont(font.deriveFont((float)(getHeight()*0.20)));
+if(textAbschnitte != null){
+for(int i = 0; i < textAbschnitte[position].length;i++){
+g.drawString(textAbschnitte[position][i],(int)(getX()+10),(int)((getY()-getHeight()+(i*getHeight()*0.20)) + (getHeightProzent()*height)+10 ));
+}
+}
+else{
+g.drawString(text,(int)(getX()+10),(int)((getY()-getHeight()+(0*getHeight()*0.20)) + (getHeightProzent()*height)+10 ));
+}
+}
+
+public void weiter(){
+if(text.length() > 60){
+if(position+1 < textAbschnitte.length){
+position+=1;
+}
+}
+
+}
+}
+ */
+import java.awt.*;
+import javax.swing.*;
+public class GUITextFeld extends GUIFenster{
+
+    private String text;
+    private int position = 0;
+    private String[][] textAbschnitte;
+    private Spieler spieler;
+    public GUITextFeld(String text){
+        super(0,1,1,0.2);
+        this.text = text;
+        position = 0;
+        this.spieler = spieler;
+        int a = text.length()/(4*60);
+        if(text.length() % (4*60) > 0){
+            textAbschnitte = new String[a+1][4];
+        }
+        else{
+            textAbschnitte = new String[a][4];
+        }
+        int anfangsPunkt = 0;
+        int endPunkt = 0;
+        for(int i = 0; i < textAbschnitte.length;i++){
+            for(int j = 0; j <textAbschnitte[i].length;j++){
+                int diff = 0;
+                for(int w = 0; w < 5;w++){
+                    diff = 60+w;
+                    if(text.length() > anfangsPunkt+diff){
+                        if((text.charAt(anfangsPunkt+diff) == ' ')){
+                            if(text.length() > anfangsPunkt+diff+1 && text.charAt(anfangsPunkt+diff+1) != ' '){
+                                break;
+                            }
+                        }
+                    }
+                    else{
+                        break;
+                    }
+                }
+                if(anfangsPunkt+diff < text.length()){
+                    endPunkt = anfangsPunkt + diff;
+                }
+                else{
+                    endPunkt = text.length();
+                }
+                textAbschnitte[i][j] = text.substring(anfangsPunkt,endPunkt);
+                anfangsPunkt = endPunkt;
+            }
+        }
+    }
+
+    public void zeichnen(Graphics g,JPanel panel){
+        super.zeichnen(g,panel);
+        g.setColor(Color.WHITE);
+        Font font = new Font("Arial",Font.BOLD,(int)(getHeightProzent()*height));
+        g.setFont(font.deriveFont((float)(getHeight()*0.20)));
+        if(textAbschnitte != null){
+            for(int i = 0; i < textAbschnitte[position].length;i++){
+                g.drawString(textAbschnitte[position][i],(int)(getX()+10),(int)((getY()-getHeight()+(i*getHeight()*0.20)) + (getHeightProzent()*height)+10 ));
+            }
+        }
+        else{
+            g.drawString(text,(int)(getX()+10),(int)((getY()-getHeight()+(0*getHeight()*0.20)) + (getHeightProzent()*height)+10 ));
+        }
+    }
+
+    public void weiter(){
+        if(position+1 < textAbschnitte.length){
+            position+=1;
+        }
+        else{
+            Spielfeld.spieler.setText(null);
+            position = 0;
+        }
+    }
+}

@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=time
+comment0.target=Survival(int)
+comment1.params=
+comment1.target=void\ schleife()
+comment2.params=
+comment2.target=Spieler\ gibGewinnerFallsZuende()
+comment3.params=g\ panel\ genauigkeit\ zeichenfeld
+comment3.target=void\ zeichnen(java.awt.Graphics,\ javax.swing.JPanel,\ int,\ java.awt.image.BufferedImage)
+comment4.params=spieler\ i
+comment4.target=java.lang.String\ ueberSpielerZeichnen(java.util.ArrayList,\ int)
+comment5.params=
+comment5.target=void\ spawnEnemys()
+comment6.params=g\ panel\ x\ y\ width\ height
+comment6.target=void\ drawWinscreen(java.awt.Graphics,\ javax.swing.JPanel,\ int,\ int,\ int,\ int)
+comment7.params=container
+comment7.target=Moduseinstellungspanel\ getEinstellungspanel(Fenster)
+numComments=8

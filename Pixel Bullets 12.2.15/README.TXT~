@@ -1,0 +1,9 @@
+TODO:
+ - Bugfixes:
+  + Sniperkugel durch die Wand !FIXED! (Außer man steht so weit von ner wand weg dass die entfernung durch 2 eine genau Zahl ohne Rest gibt)
+  - Spieler steht in der Wand (Beine ragen in die wand rein(ausgelöst durch rundungsfehler))
+  - NPCs bewegen sich nicht (kann ich (Mehmet) nicht alleine fixen, da ich die Pfadfindung net drauf hab)
+  (- NPCs töten unbeweglichen Spieler nicht (Tritt bei tests nicht mehr auf))
+ - Features:
+  - Modusauswahlscreen
+  - Bluteinstellungen

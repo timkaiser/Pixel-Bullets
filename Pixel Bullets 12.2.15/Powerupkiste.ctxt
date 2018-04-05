@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=x\ y
+comment0.target=Powerupkiste(double,\ double)
+comment1.params=r\ p
+comment1.target=boolean\ kollision(java.awt.Rectangle,\ Projektil)
+comment2.params=
+comment2.target=void\ berechnen()
+comment3.params=r\ s
+comment3.target=boolean\ kollision(java.awt.Rectangle,\ Spieler)
+comment4.params=spieler
+comment4.target=java.lang.String\ waffenupgrade(Spieler)
+comment5.params=
+comment5.target=void\ aktivieren()
+comment6.params=
+comment6.target=void\ deaktivieren()
+comment7.params=g\ panel
+comment7.target=void\ zeichnen(java.awt.Graphics,\ javax.swing.JPanel)
+numComments=8

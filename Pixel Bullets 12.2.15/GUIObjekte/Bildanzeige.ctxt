@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=img\ x\ y\ b\ h\ jc
+comment0.target=Bildanzeige(java.awt.image.BufferedImage,\ double,\ double,\ double,\ double,\ java.awt.Container)
+comment1.params=frameBreite\ frameHoehe
+comment1.target=void\ skallieren(int,\ int)
+comment2.params=g
+comment2.target=void\ paintComponent(java.awt.Graphics)
+numComments=3

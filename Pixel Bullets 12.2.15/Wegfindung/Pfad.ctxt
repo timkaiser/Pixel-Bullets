@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Pfad()
+comment1.params=xs\ ys\ xz\ yz
+comment1.target=void\ wegBerechnen(int,\ int,\ int,\ int)
+numComments=2

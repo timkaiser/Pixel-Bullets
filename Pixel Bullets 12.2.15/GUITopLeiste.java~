@@ -1,0 +1,34 @@
+import java.awt.*;
+
+public class GUITopLeiste extends SpielerGUI{
+    private Spieler spieler;
+    private GUILebensAnzeige leben;
+    private GUIItemBox item,schwert;
+    public GUITopLeiste(double x,double y,double width,double height,Spieler spieler){
+        super(x,y,width,height);
+        this.spieler = spieler;
+        leben = new GUILebensAnzeige(0.01,0.5,0.2,0.2,spieler);
+        item = new GUIItemBox(0.8,0,0,0.9);
+        schwert = new GUIItemBox(0.9,0,0,0.9);
+    }
+
+    public void zeichnen(Graphics g){
+        g.setColor(Color.BLACK);
+        g.fill3DRect(getX(),getY(),getWidth(),getHeight(),true);
+        leben.zeichnen(g);
+        item.zeichnen(g);
+        schwert.zeichnen(g);
+    }
+
+    public Spieler getSpieler(){
+        return spieler;
+    }
+
+    public void berechnen(int breite,int hoehe){
+        super.berechnen(breite,hoehe);
+        leben.berechnen(getWidth(),getHeight());
+        item.berechnen(getWidth(),getHeight());
+        schwert.berechnen(getWidth(),getHeight());
+    }
+
+}

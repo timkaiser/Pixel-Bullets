@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=besitzer
+comment0.target=DoppelPistolen(Spieler)
+comment1.params=
+comment1.target=void\ aktivieren()
+comment2.params=g\ panel
+comment2.target=void\ zeichnen(java.awt.Graphics,\ javax.swing.JPanel)
+comment3.params=
+comment3.target=void\ playSound()
+comment4.params=
+comment4.target=java.lang.String\ getType()
+comment5.params=s
+comment5.target=Waffe\ getKopie(Spieler)
+numComments=6

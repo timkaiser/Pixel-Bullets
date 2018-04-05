@@ -1,0 +1,23 @@
+public class Mensch extends NPC{
+    private boolean hatGeredet;
+    private GUITextFeld text;
+    public Mensch(int x,int y,GUITextFeld text){
+        super(new Animation(Bilder.getSpielerbild(2),19,150),
+            new Animation(Bilder.getSpielerbild(1),19,150),
+            new Animation(Bilder.getSpielerbild(3),19,150),
+            new Animation(Bilder.getSpielerbild(0),19,150),
+            Bilder.getSpielermaske(),x,y,19,33);
+        hatGeredet = false;
+        this.text = text;
+    }
+
+    public void kollidiertMitSpieler(){
+        if(spieler.getKollisionsmaske().kollidiert(kollisionsmaske)){
+            if(hatGeredet == false){
+                spieler.setText(text);
+                hatGeredet = true;
+            }
+        }
+    }
+
+}

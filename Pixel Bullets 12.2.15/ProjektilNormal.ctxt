@@ -1,0 +1,4 @@
+#BlueJ class context
+comment0.params=x\ y\ breite\ hoehe\ speedX\ speedY\ reichweite\ schaden\ spieler
+comment0.target=ProjektilNormal(double,\ double,\ int,\ int,\ double,\ double,\ double,\ double,\ Spieler)
+numComments=1

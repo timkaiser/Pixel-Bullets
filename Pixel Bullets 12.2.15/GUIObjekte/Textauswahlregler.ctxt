@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=x\ y\ b\ h\ font\ jc\ maps
+comment0.target=Textauswahlregler(double,\ double,\ double,\ double,\ java.awt.Font,\ java.awt.Container,\ java.lang.String[])
+comment1.params=frameBreite\ frameHoehe
+comment1.target=void\ skallieren(int,\ int)
+comment2.params=e
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment3.params=
+comment3.target=void\ textAktualisieren()
+comment4.params=
+comment4.target=java.lang.String\ getAuswahlText()
+comment5.params=text
+comment5.target=void\ setText(java.lang.String[])
+numComments=6

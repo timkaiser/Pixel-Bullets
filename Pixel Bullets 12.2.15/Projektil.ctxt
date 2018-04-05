@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.params=x\ y\ breite\ hoehe\ speedX\ speedY\ reichweite\ schaden\ spieler
+comment0.target=Projektil(double,\ double,\ int,\ int,\ double,\ double,\ double,\ double,\ Spieler)
+comment1.params=g\ panel
+comment1.target=void\ zeichnen(java.awt.Graphics,\ javax.swing.JPanel)
+comment2.params=
+comment2.target=void\ bewegungBerechnen()
+comment3.params=
+comment3.target=void\ verfolgen()
+comment4.params=
+comment4.target=boolean\ kollidiert()
+comment5.params=
+comment5.target=Spieler\ kollidiertMitSpieler()
+comment6.params=
+comment6.target=NPC\ kollidiertMitNPC()
+comment7.params=
+comment7.target=void\ kollidiertMitNiedrigemHindernis()
+comment8.params=
+comment8.target=boolean\ isTief()
+numComments=9

@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=mapname
+comment0.target=LevelReader(java.lang.String)
+comment1.params=mapname
+comment1.target=void\ levelEinlesen(java.lang.String)
+comment2.params=
+comment2.target=java.util.ArrayList\ getHindernisse()
+comment3.params=
+comment3.target=java.util.ArrayList\ getRespawnpunkte()
+comment4.params=
+comment4.target=java.util.ArrayList\ getGegnerspawnpunkte()
+comment5.params=
+comment5.target=int\ getBreite()
+comment6.params=
+comment6.target=int\ getHoehe()
+numComments=7

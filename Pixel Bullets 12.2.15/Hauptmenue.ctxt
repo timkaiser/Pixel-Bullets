@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=container
+comment0.target=Hauptmenue(Fenster)
+comment1.params=
+comment1.target=void\ knoepfeEntfernen()
+comment2.params=e
+comment2.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment3.params=g
+comment3.target=void\ paintComponent(java.awt.Graphics)
+numComments=4

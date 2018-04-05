@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.params=besitzer
+comment0.target=Minenleger(Spieler)
+comment1.params=
+comment1.target=void\ aktivieren()
+comment2.params=
+comment2.target=java.lang.String\ schussgeschwindigkeitsUpgrade()
+comment3.params=
+comment3.target=void\ reset()
+comment4.params=
+comment4.target=void\ playSound()
+comment5.params=m
+comment5.target=void\ mineEntfernen(Mine)
+comment6.params=
+comment6.target=java.lang.String\ getType()
+comment7.params=s
+comment7.target=Waffe\ getKopie(Spieler)
+comment8.params=anzahl
+comment8.target=void\ setMinenAnzahl(int)
+comment9.params=
+comment9.target=int\ getMinenAnzahl()
+numComments=10

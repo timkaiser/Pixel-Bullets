@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=x\ y\ breite\ hoehe\ speedX\ speedY\ spieler
+comment0.target=ProjektilSniper(double,\ double,\ int,\ int,\ double,\ double,\ Spieler)
+comment1.params=
+comment1.target=void\ bewegungBerechnen()
+numComments=2

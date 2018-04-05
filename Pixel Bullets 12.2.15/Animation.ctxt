@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=img\ bildBreite\ bildWechselZeit
+comment0.target=Animation(java.awt.image.BufferedImage,\ int,\ int)
+comment1.params=img
+comment1.target=Animation(java.awt.image.BufferedImage)
+comment2.params=
+comment2.target=void\ starteAnimation()
+comment3.params=
+comment3.target=void\ stoppeAnimation()
+comment4.params=
+comment4.target=java.awt.image.BufferedImage\ getNextPicture()
+numComments=5

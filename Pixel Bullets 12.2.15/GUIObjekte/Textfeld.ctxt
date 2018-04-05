@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=name\ x\ y\ b\ h\ font\ jc
+comment0.target=Textfeld(java.lang.String,\ double,\ double,\ double,\ double,\ java.awt.Font,\ java.awt.Container)
+comment1.params=frameBreite\ frameHoehe
+comment1.target=void\ skallieren(int,\ int)
+numComments=2

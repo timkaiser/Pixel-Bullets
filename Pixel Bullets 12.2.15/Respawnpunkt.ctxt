@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=x\ y
+comment0.target=Respawnpunkt(int,\ int)
+comment1.params=spieler
+comment1.target=void\ spielerToSpawn(Spieler)
+comment2.params=npc
+comment2.target=void\ NPCToSpawn(NPC)
+numComments=3
