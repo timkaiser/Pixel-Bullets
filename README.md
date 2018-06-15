@@ -1,4 +1,5 @@
 # ***Pixel Bullets***
+![castle](http://home.in.tum.de/~kaisetim/ressources/pixelbullets.png)
 **Language:** Java, **Date:** 2014, Contributers: Tim Kaiser, Mehmet Guel (@CodeMG), Christoph Giebenhain (@Christ0)
 <br>
 <br>
@@ -53,3 +54,9 @@ This game was created as contribution to a two week programming competition with
 
 - Menue programming
 - Gameplay programming
+
+## Pictures
+
+![hyrule](http://home.in.tum.de/~kaisetim/ressources/pixelbullets2.png)
+
+![xmas](http://home.in.tum.de/~kaisetim/ressources/pixelbullets3.png)
